@@ -4,7 +4,6 @@ package de.rki.covpass.app.widget
 import android.appwidget.AppWidgetManager
 import android.appwidget.AppWidgetProvider
 import android.content.Context
-import android.content.Intent
 import android.widget.RemoteViews
 import com.ensody.reactivestate.DependencyAccessor
 import com.google.zxing.BarcodeFormat
@@ -27,6 +26,8 @@ public class CertificateWidget : AppWidgetProvider() {
             updateAppWidget(context, appWidgetManager, appWidgetId)
         }
     }
+
+
 }
 
 @OptIn(DependencyAccessor::class)
@@ -36,12 +37,11 @@ internal fun updateAppWidget(
     appWidgetId: Int,
 ) {
     val views = RemoteViews(context.packageName, R.layout.certificate_widget)
-
     val certs = covpassDeps.certRepository.certs.value
 
-    val cert = certs.certificates[0].getMainCertificate()
+    val mainCert = certs.certificates[0].getMainCertificate()
+    val qrContent = mainCert.qrContent
 
-    val qrContent = certs.certificates[0].getMainCertificate().qrContent
     val bitmap =  BarcodeEncoder().encodeBitmap(
         qrContent,
         BarcodeFormat.QR_CODE,
@@ -51,10 +51,7 @@ internal fun updateAppWidget(
     )
 
     views.setImageViewBitmap(R.id.certificate_qr_imageview, bitmap)
-    views.setTextViewText(R.id.certificate_name_textview, cert.covCertificate.fullName)
+    views.setTextViewText(R.id.certificate_name_textview, mainCert.covCertificate.fullName)
 
-
-
-    // Instruct the widget manager to update the widget
     appWidgetManager.updateAppWidget(appWidgetId, views)
 }

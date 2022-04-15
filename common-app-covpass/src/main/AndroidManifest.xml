@@ -46,6 +46,13 @@
             android:icon="@drawable/save_pdf"
             android:label="@string/certificate_share_pdf_shareitem_android"
             android:theme="@style/CovPassAppTheme" />
+
+      <activity android:name=".widget.CertificateWidgetConfigActivity"
+        android:exported="true">
+        <intent-filter>
+          <action android:name="android.appwidget.action.APPWIDGET_CONFIGURE"/>
+        </intent-filter>
+      </activity>
     </application>
 
 </manifest>
