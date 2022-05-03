@@ -760,7 +760,8 @@
 	<string name="certificate_renewal_detail_view_notification_box_secondary_button">Aktualisieren</string>
 
   <!-- SECTION: certificate widget -->
-  <string name="widget_certificate_title">COVID-Zertifikat der EU</string>
+  <string name="widget_certificate_description">COVID-Zertifikat</string>
+  <string name="widget_certificate_loading">Laden…</string>
   <string name="widget_configuration_dialog_title">Person auswählen</string>
   <string name="widget_configuration_no_certificate_added">Um ein Widget zu erstellen, muss mindestens ein Zertifikat in der App hinterlegt sein</string>
   <string name="widget_loading_info">Laden…</string>

@@ -760,7 +760,8 @@
 	<string name="certificate_renewal_detail_view_notification_box_secondary_button">Update</string>
 
   <!-- SECTION: certificate widget -->
-  <string name="widget_certificate_title">COVID-Zertifikat der EU</string>
+  <string name="widget_certificate_description">COVID-Certificate</string>
+  <string name="widget_certificate_loading">Loading…</string>
   <string name="widget_configuration_dialog_title">Select owner</string>
   <string name="widget_configuration_no_certificate_added">To create a widget you have to add at least one certificate</string>
   <string name="widget_loading_info">Loading…</string>

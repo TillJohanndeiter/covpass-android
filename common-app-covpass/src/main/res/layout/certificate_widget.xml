@@ -43,6 +43,7 @@
         android:layout_height="wrap_content"
         android:focusable="true"
         android:lineSpacingMultiplier="1"
+        android:text="@string/widget_certificate_loading"
         android:textSize="14sp"
         tools:ignore="HardcodedText" />
 
