@@ -29,4 +29,13 @@
     <item name="android:textSize">@dimen/textsize_default</item>
   </style>
 
+  <style name="CertificateWidgetContainerParent" parent="@android:style/Theme.DeviceDefault">
+    <item name="appWidgetRadius">16dp</item>
+    <item name="appWidgetInnerRadius">16dp</item>
+  </style>
+
+  <style name="CertificateWidgetContainer" parent="CertificateWidgetContainerParent">
+    <item name="appWidgetPadding">16dp</item>
+  </style>
+
 </resources>

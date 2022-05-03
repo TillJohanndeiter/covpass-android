@@ -5,7 +5,7 @@
   android:layout_width="match_parent"
   android:layout_height="match_parent"
   android:orientation="vertical"
-  android:theme="@style/Theme.Androidcovpassapp.AppWidgetContainer"
+  android:theme="@style/CertificateWidgetContainer"
   tools:background="@color/info70">
 
   <LinearLayout
