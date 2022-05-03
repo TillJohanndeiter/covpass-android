@@ -4,6 +4,7 @@ package de.rki.covpass.app.widget
 import android.appwidget.AppWidgetManager
 import android.appwidget.AppWidgetProvider
 import android.content.Context
+import android.util.Log
 import android.widget.RemoteViews
 import com.ensody.reactivestate.DependencyAccessor
 import com.google.zxing.BarcodeFormat
@@ -31,27 +32,35 @@ public class CertificateWidget : AppWidgetProvider() {
 }
 
 @OptIn(DependencyAccessor::class)
-internal fun updateAppWidget(
+public fun updateAppWidget(
     context: Context,
     appWidgetManager: AppWidgetManager,
     appWidgetId: Int,
 ) {
     val views = RemoteViews(context.packageName, R.layout.certificate_widget)
-    val certs = covpassDeps.certRepository.certs.value
+    val widgetIdToFullName = covpassDeps.widgetRepository.widgetIdToFullName.value
+    val fullName = widgetIdToFullName[appWidgetId]
 
-    val mainCert = certs.certificates[0].getMainCertificate()
-    val qrContent = mainCert.qrContent
+    val mainCertificates =
+        covpassDeps.certRepository.certs.value.certificates.map { groupedCertificates -> groupedCertificates.getMainCertificate() }
 
-    val bitmap =  BarcodeEncoder().encodeBitmap(
-        qrContent,
-        BarcodeFormat.QR_CODE,
-        context.resources.displayMetrics.widthPixels,
-        context.resources.displayMetrics.widthPixels,
-        mapOf(EncodeHintType.MARGIN to 0),
-    )
+    val mainCertificate = mainCertificates.find { it.covCertificate.fullName == fullName }
 
-    views.setImageViewBitmap(R.id.certificate_qr_imageview, bitmap)
-    views.setTextViewText(R.id.certificate_name_textview, mainCert.covCertificate.fullName)
+    if (mainCertificate != null) {
 
-    appWidgetManager.updateAppWidget(appWidgetId, views)
+        val qrContent = mainCertificate.qrContent
+
+        val bitmap = BarcodeEncoder().encodeBitmap(
+            qrContent,
+            BarcodeFormat.QR_CODE,
+            context.resources.displayMetrics.widthPixels,
+            context.resources.displayMetrics.widthPixels,
+            mapOf(EncodeHintType.MARGIN to 0),
+        )
+
+        views.setImageViewBitmap(R.id.certificate_qr_imageview, bitmap)
+        views.setTextViewText(R.id.certificate_name_textview, mainCertificate.covCertificate.fullName)
+
+        appWidgetManager.updateAppWidget(appWidgetId, views)
+    }
 }

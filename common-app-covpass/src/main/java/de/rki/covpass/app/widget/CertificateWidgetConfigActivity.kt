@@ -4,18 +4,35 @@ import android.app.Activity
 import android.appwidget.AppWidgetManager
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.widget.RemoteViews
+import androidx.annotation.LayoutRes
+import com.ensody.reactivestate.android.reactiveState
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
+import com.ibm.health.common.android.utils.BaseHookedActivity
 import de.rki.covpass.app.R
 import de.rki.covpass.app.dependencies.covpassDeps
+import de.rki.covpass.app.detail.adapter.DetailItem
+import de.rki.covpass.app.main.CertificateViewModel
+import de.rki.covpass.app.main.WidgetViewModel
 import de.rki.covpass.commonapp.BaseActivity
+import de.rki.covpass.commonapp.dependencies.commonDeps
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.withContext
 
-public class CertificateWidgetConfigActivity : BaseActivity() {
+public class CertificateWidgetConfigActivity(@LayoutRes contentLayoutId: Int = 0) :
+    BaseHookedActivity(contentLayoutId = contentLayoutId) {
+
+    private val viewModel by reactiveState { WidgetViewModel(scope) }
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setTheme(R.style.CovPassAppTheme);
         setResult(Activity.RESULT_CANCELED)
+        val appWidgetId = intent?.extras?.getInt(
+            AppWidgetManager.EXTRA_APPWIDGET_ID,
+            AppWidgetManager.INVALID_APPWIDGET_ID,
+        ) ?: AppWidgetManager.INVALID_APPWIDGET_ID
 
 
         val mainCertificates =
@@ -24,31 +41,32 @@ public class CertificateWidgetConfigActivity : BaseActivity() {
         val holderNames =
             mainCertificates.map { combinedCertificate -> combinedCertificate.covCertificate.fullName }.toTypedArray()
 
+        var selectedIdx = 0
+
         MaterialAlertDialogBuilder(this)
-            .setTitle("TODO: Title")
+            .setTitle(getString(R.string.widget_configuration_dialog_title))
             .setNeutralButton(resources.getString(R.string.cancel)) { _, _ ->
                 finish()
             }
-            .setPositiveButton(resources.getString(R.string.ok)) { _, which ->
-                val selectedName = holderNames[which]
+            .setPositiveButton(resources.getString(R.string.ok)) { _, _ ->
+                viewModel.setWidgetIdToSelectedName(this, appWidgetId, holderNames[selectedIdx])
+                val resultValue = Intent().putExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, appWidgetId)
+                setResult(Activity.RESULT_OK, resultValue)
                 finish()
+
             }
-            .setSingleChoiceItems(holderNames, 1) { _, _ ->
+            .setSingleChoiceItems(holderNames, 0) { _, which ->
+                selectedIdx = which
             }
             .show()
 
-        val appWidgetId = intent?.extras?.getInt(
-            AppWidgetManager.EXTRA_APPWIDGET_ID,
-            AppWidgetManager.INVALID_APPWIDGET_ID,
-        ) ?: AppWidgetManager.INVALID_APPWIDGET_ID
-
-        val appWidgetManager = AppWidgetManager.getInstance(this)
-
-        val views = RemoteViews(packageName, R.layout.certificate_widget)
-        appWidgetManager.updateAppWidget(appWidgetId, views)
-
-        val resultValue = Intent().putExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, appWidgetId)
-        setResult(Activity.RESULT_OK, resultValue)
 
     }
+
+    override fun setLoading(isLoading: Boolean) {}
+    override fun onError(error: Throwable) {
+        commonDeps.errorHandler.handleError(error, supportFragmentManager)
+
+    }
+
 }

@@ -10,6 +10,7 @@ import com.ensody.reactivestate.DependencyAccessor
 import com.ibm.health.common.android.utils.androidDeps
 import de.rki.covpass.app.checkerremark.CheckerRemarkRepository
 import de.rki.covpass.app.common.ToggleFavoriteUseCase
+import de.rki.covpass.commonapp.storage.WidgetRepository
 import de.rki.covpass.sdk.dependencies.sdkDeps
 import de.rki.covpass.sdk.storage.CborSharedPrefsStore
 import de.rki.covpass.sdk.storage.CertRepository
@@ -48,6 +49,13 @@ internal abstract class CovpassDependencies {
             CborSharedPrefsStore("checker_remark_prefs", cbor),
         )
     }
+
+    val widgetRepository: WidgetRepository by lazy {
+        WidgetRepository(
+            CborSharedPrefsStore("widget_prefs", cbor),
+        )
+    }
+
 
     val toggleFavoriteUseCase by lazy { ToggleFavoriteUseCase(certRepository) }
 }
