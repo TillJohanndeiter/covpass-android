@@ -28,6 +28,7 @@ import de.rki.covpass.app.R
 import de.rki.covpass.app.databinding.DgcEntryDetailBinding
 import de.rki.covpass.app.dependencies.covpassDeps
 import de.rki.covpass.app.detail.adapter.DgcEntryDetailAdapter
+import de.rki.covpass.app.widget.updateAllWidgets
 import de.rki.covpass.commonapp.BaseFragment
 import de.rki.covpass.commonapp.dialog.DialogAction
 import de.rki.covpass.commonapp.dialog.DialogListener
@@ -72,7 +73,7 @@ public abstract class DgcEntryDetailFragment : BaseFragment(), DgcEntryDetailEve
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
         val deleteItem = menu.add(
             Menu.NONE, DELETE_ITEM_ID, Menu.NONE,
-            getString(R.string.accessibility_certificate_detail_view_label_delete_button)
+            getString(R.string.accessibility_certificate_detail_view_label_delete_button),
         )
         deleteItem.setIcon(R.drawable.trash)
         deleteItem.setShowAsAction(SHOW_AS_ACTION_IF_ROOM)
@@ -109,6 +110,7 @@ public abstract class DgcEntryDetailFragment : BaseFragment(), DgcEntryDetailEve
     override fun onDeleteDone(isGroupedCertDeleted: Boolean) {
         requireContext().cacheDir.deleteRecursively()
         findNavigator().popUntil<DgcEntryDetailCallback>()?.onDeletionCompleted(isGroupedCertDeleted)
+        updateAllWidgets(requireContext())
     }
 
     public abstract fun getToolbarTitleText(cert: CovCertificate): String
@@ -126,7 +128,7 @@ public abstract class DgcEntryDetailFragment : BaseFragment(), DgcEntryDetailEve
             updateList(
                 getDataRows(cert).filterNot {
                     it.value.isNullOrEmpty()
-                }
+                },
             )
             attachTo(binding.dgcDetailRecyclerView)
         }
@@ -180,21 +182,21 @@ public abstract class DgcEntryDetailFragment : BaseFragment(), DgcEntryDetailEve
                         combinedCovCertificate.covCertificate.validUntil.formatTimeOrEmpty(),
                     ),
                     description = getString(R.string.certificate_expires_detail_view_note_message),
-                    iconRes = R.drawable.main_cert_expiry_period
+                    iconRes = R.drawable.main_cert_expiry_period,
                 )
             }
             CertValidationResult.Expired -> {
                 binding.dgcDetailExpirationInfoElement.showWarning(
                     title = getString(R.string.certificate_expired_detail_view_note_title),
                     description = getString(R.string.certificate_expired_detail_view_note_message),
-                    iconRes = R.drawable.info_warning_icon
+                    iconRes = R.drawable.info_warning_icon,
                 )
             }
             CertValidationResult.Invalid -> {
                 binding.dgcDetailExpirationInfoElement.showWarning(
                     title = getString(R.string.certificate_invalid_detail_view_note_title),
                     description = getString(R.string.certificate_invalid_detail_view_note_message),
-                    iconRes = R.drawable.info_warning_icon
+                    iconRes = R.drawable.info_warning_icon,
                 )
             }
             else -> binding.dgcDetailExpirationInfoElement.isGone = true

@@ -4,7 +4,6 @@ import android.app.Activity
 import android.appwidget.AppWidgetManager
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import android.widget.Toast
 import androidx.annotation.LayoutRes
 import com.ensody.reactivestate.android.reactiveState
@@ -13,10 +12,7 @@ import com.ibm.health.common.android.utils.BaseHookedActivity
 import de.rki.covpass.app.R
 import de.rki.covpass.app.dependencies.covpassDeps
 import de.rki.covpass.app.main.WidgetViewModel
-import de.rki.covpass.commonapp.BaseActivity
 import de.rki.covpass.commonapp.dependencies.commonDeps
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.withContext
 
 public class CertificateWidgetConfigActivity(@LayoutRes contentLayoutId: Int = 0) :
     BaseHookedActivity(contentLayoutId = contentLayoutId) {

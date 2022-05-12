@@ -1,74 +1,95 @@
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
   xmlns:tools="http://schemas.android.com/tools"
-  android:id="@+id/linearLayout"
+  android:id="@+id/widget_frameLayout"
   style="@style/Widget.Androidcovpassapp.AppWidget.Container"
   android:layout_width="match_parent"
   android:layout_height="match_parent"
-  android:orientation="vertical"
   android:theme="@style/CertificateWidgetContainer"
   tools:background="@color/info70">
 
   <LinearLayout
+    android:id="@+id/linearLayout"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:layout_marginBottom="@dimen/grid_one">
-
-    <LinearLayout
-      android:layout_width="wrap_content"
-      android:layout_height="match_parent"
-      android:orientation="horizontal"
-      android:weightSum="2">
-
-      <ImageView
-        android:id="@+id/certificate_status_imageview"
-        android:layout_width="@dimen/grid_three"
-        android:layout_height="@dimen/grid_two"
-        android:layout_gravity="center"
-        android:src="@drawable/main_cert_status_complete_white"
-        tools:ignore="ContentDescription" />
-    </LinearLayout>
-
-    <LinearLayout
-      android:layout_width="match_parent"
-      android:layout_height="wrap_content"
-      android:orientation="vertical"
-      android:weightSum="8">
-
-      <TextView
-
-        android:id="@+id/certificate_name_textview"
-        style="@style/DefaultText.OnInfo"
-
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:focusable="true"
-        android:lineSpacingMultiplier="1"
-        android:text="@string/widget_certificate_loading"
-        android:textSize="14sp"
-        tools:ignore="HardcodedText" />
-
-    </LinearLayout>
-
-  </LinearLayout>
-
-  <LinearLayout
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:layout_gravity="center_horizontal"
-    android:gravity="center_horizontal"
+    android:layout_height="match_parent"
     android:orientation="vertical">
 
-    <ImageView
-      android:id="@+id/certificate_qr_imageview"
-      style="@style/Header.Info"
+    <LinearLayout
       android:layout_width="match_parent"
       android:layout_height="wrap_content"
-      android:adjustViewBounds="false"
-      android:contentDescription="@string/accessibility_vaccination_start_screen_label_qrcode"
-      android:scaleType="centerInside" />
+      android:layout_marginBottom="@dimen/grid_one">
 
+      <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:orientation="horizontal"
+        android:weightSum="2">
+
+        <ImageView
+          android:id="@+id/certificate_status_imageview"
+          android:layout_width="@dimen/grid_three"
+          android:layout_height="@dimen/grid_two"
+          android:layout_gravity="center"
+          android:src="@drawable/main_cert_status_complete_white"
+          android:visibility="invisible"
+          tools:ignore="ContentDescription" />
+      </LinearLayout>
+
+      <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:weightSum="8">
+
+        <TextView
+
+          android:id="@+id/certificate_name_textview"
+          style="@style/DefaultText.OnInfo"
+
+          android:layout_width="match_parent"
+          android:layout_height="wrap_content"
+          android:focusable="true"
+          android:lineSpacingMultiplier="1"
+          android:textSize="14sp"
+          tools:ignore="HardcodedText" />
+
+      </LinearLayout>
+
+    </LinearLayout>
+
+    <LinearLayout
+      android:id="@+id/certificate_info_or_qr_layout"
+      android:layout_width="match_parent"
+      android:layout_height="match_parent"
+      android:layout_gravity="center_horizontal"
+      android:gravity="center_horizontal"
+      android:orientation="vertical">
+
+      <ImageView
+        android:id="@+id/certificate_qr_imageview"
+        style="@style/Header.Info"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:adjustViewBounds="false"
+        android:contentDescription="@string/accessibility_vaccination_start_screen_label_qrcode"
+        android:scaleType="centerInside" />
+    </LinearLayout>
   </LinearLayout>
 
-</LinearLayout>
+  <TextView
+
+    android:id="@+id/certificate_widget_info_textview"
+
+    style="@style/DefaultText.OnInfo"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_gravity="center"
+    android:focusable="true"
+    android:gravity="center"
+    android:lineSpacingMultiplier="1"
+    android:text="@string/widget_certificate_loading"
+    android:textSize="16sp"
+    tools:ignore="HardcodedText" />
+</FrameLayout>
+
 
 

@@ -765,5 +765,7 @@
   <string name="widget_configuration_dialog_title">Select owner</string>
   <string name="widget_configuration_no_certificate_added">To create a widget you have to add at least one certificate</string>
   <string name="widget_loading_info">Loading…</string>
+  <string name="widget_certificate_not_available">No certificate available</string>
+
 
 </resources>

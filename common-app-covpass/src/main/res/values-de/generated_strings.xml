@@ -765,4 +765,6 @@
   <string name="widget_configuration_dialog_title">Person auswählen</string>
   <string name="widget_configuration_no_certificate_added">Um ein Widget zu erstellen, muss mindestens ein Zertifikat in der App hinterlegt sein</string>
   <string name="widget_loading_info">Laden…</string>
+  <string name="widget_certificate_not_available">Kein Zertifikat verfügbar</string>
+
 </resources>
