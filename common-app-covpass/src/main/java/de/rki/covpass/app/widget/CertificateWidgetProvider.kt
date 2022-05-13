@@ -17,18 +17,20 @@ import com.ibm.health.common.android.utils.getString
 import com.journeyapps.barcodescanner.BarcodeEncoder
 import de.rki.covpass.app.R
 import de.rki.covpass.app.dependencies.covpassDeps
+import kotlinx.coroutines.MainScope
+import kotlinx.coroutines.launch
 
 
 /**
  * Widget to show current certificate on home screen.
  */
-public class CertificateWidget : AppWidgetProvider() {
+public class CertificateWidgetProvider : AppWidgetProvider() {
     override fun onUpdate(
         context: Context,
         appWidgetManager: AppWidgetManager,
         appWidgetIds: IntArray,
     ) {
-        Log.d("CertificateWidget", "onUpdate")
+        Log.d("CertificateWidgetProvider", "onUpdate")
         for (appWidgetId in appWidgetIds) {
             updateAppWidget(context, appWidgetManager, appWidgetId)
         }
@@ -36,21 +38,18 @@ public class CertificateWidget : AppWidgetProvider() {
 
     @OptIn(DependencyAccessor::class)
     override fun onDeleted(context: Context?, appWidgetIds: IntArray?) {
-        Log.d("CertificateWidget", "onDeleted")
-        val widgetIdToFullName = covpassDeps.widgetRepository.widgetIdToFullName.value
+        Log.d("CertificateWidgetProvider", "onDeleted")
+        val widgetIdToFullName = covpassDeps.widgetRepository.widgetIdToFullName
 
         if (appWidgetIds != null) {
-            for (appWidgetId in appWidgetIds) {
-                widgetIdToFullName.remove(appWidgetId)
+            MainScope().launch {
+                widgetIdToFullName.update { appWidgetIds.forEach { appWidgetId -> it.remove(appWidgetId) } }
             }
         }
 
         super.onDeleted(context, appWidgetIds)
     }
 }
-
-
-
 
 
 @OptIn(DependencyAccessor::class)
@@ -88,7 +87,10 @@ public fun updateAppWidget(
     } else {
         Log.d("CertificateWidget", "No certificate found for $fullName and widget $appWidgetId")
         views.setViewVisibility(R.id.certificate_status_imageview, View.INVISIBLE)
-        views.setTextViewText(R.id.certificate_widget_info_textview, getString(R.string.widget_certificate_not_available))
+        views.setTextViewText(
+            R.id.certificate_widget_info_textview,
+            getString(R.string.widget_certificate_not_available),
+        )
         views.setImageViewUri(R.id.certificate_qr_imageview, Uri.parse(""))
     }
 
@@ -96,12 +98,15 @@ public fun updateAppWidget(
 
 }
 
-
 public fun updateAllWidgets(context: Context) {
-    val intent = Intent(context, CertificateWidget::class.java)
+    val intent = Intent(context, CertificateWidgetProvider::class.java)
     intent.action = AppWidgetManager.ACTION_APPWIDGET_UPDATE
-    val ids = AppWidgetManager.getInstance(context).getAppWidgetIds(ComponentName(context.applicationContext,
-        CertificateWidget::class.java))
+    val ids = AppWidgetManager.getInstance(context).getAppWidgetIds(
+        ComponentName(
+            context.applicationContext,
+            CertificateWidgetProvider::class.java,
+        ),
+    )
     intent.putExtra(AppWidgetManager.EXTRA_APPWIDGET_IDS, ids)
     context.sendBroadcast(intent)
 }

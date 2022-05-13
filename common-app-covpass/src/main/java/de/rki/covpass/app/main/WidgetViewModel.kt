@@ -15,9 +15,8 @@ import de.rki.covpass.app.widget.updateAppWidget
 import kotlinx.coroutines.CoroutineScope
 
 
-//TODO: Documentation
 /**
- * ViewModel providing the [setWidgetIdToSelectedName]
+ * ViewModel providing the [widgetIdToFullName]
  */
 internal class WidgetViewModel constructor(
     scope: CoroutineScope,
@@ -27,7 +26,7 @@ internal class WidgetViewModel constructor(
     @OptIn(DependencyAccessor::class)
     val widgetIdToFullName = covpassDeps.widgetRepository.widgetIdToFullName
 
-    fun setWidgetIdToSelectedName(context:Context, appWidgetId: Int, selectedName: String) {
+    fun setWidgetIdToSelectedName(context: Context, appWidgetId: Int, selectedName: String) {
         launch {
             val appWidgetManager = AppWidgetManager.getInstance(context)
             widgetIdToFullName.update { it[appWidgetId] = selectedName }
