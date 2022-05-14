@@ -13,7 +13,13 @@ import de.rki.covpass.app.R
 import de.rki.covpass.app.dependencies.covpassDeps
 import de.rki.covpass.app.main.WidgetViewModel
 import de.rki.covpass.commonapp.dependencies.commonDeps
+import de.rki.covpass.sdk.cert.models.GroupedCertificates
 
+/**
+ * The configuration screen for the [CertificateWidgetProvider] AppWidget. If no [GroupedCertificates] exists, a message will be shown.
+ * If only one certificate holder name exists, the widget will be configured with this name. Otherwise a alert dialog
+ * to select the holder will be shown.
+ */
 public class CertificateWidgetConfigActivity(@LayoutRes contentLayoutId: Int = 0) :
     BaseHookedActivity(contentLayoutId = contentLayoutId) {
 
@@ -66,7 +72,6 @@ public class CertificateWidgetConfigActivity(@LayoutRes contentLayoutId: Int = 0
             .setPositiveButton(resources.getString(R.string.ok)) { _, _ ->
                 viewModel.setWidgetIdToSelectedName(this, appWidgetId, holderNames[selectedIdx])
                 successfullyFinish(appWidgetId)
-
             }
             .setSingleChoiceItems(holderNames, 0) { _, which ->
                 selectedIdx = which

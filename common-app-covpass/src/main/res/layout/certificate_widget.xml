@@ -7,6 +7,21 @@
   android:theme="@style/CertificateWidgetContainer"
   tools:background="@color/info70">
 
+  <TextView
+
+    android:id="@+id/certificate_widget_info_textview"
+
+    style="@style/DefaultText.OnInfo"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_gravity="center"
+    android:focusable="true"
+    android:gravity="center"
+    android:lineSpacingMultiplier="1"
+    android:text="@string/widget_certificate_loading"
+    android:textSize="16sp"
+    tools:ignore="HardcodedText" />
+
   <LinearLayout
     android:id="@+id/linearLayout"
     android:layout_width="match_parent"
@@ -75,20 +90,6 @@
     </LinearLayout>
   </LinearLayout>
 
-  <TextView
-
-    android:id="@+id/certificate_widget_info_textview"
-
-    style="@style/DefaultText.OnInfo"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:layout_gravity="center"
-    android:focusable="true"
-    android:gravity="center"
-    android:lineSpacingMultiplier="1"
-    android:text="@string/widget_certificate_loading"
-    android:textSize="16sp"
-    tools:ignore="HardcodedText" />
 </FrameLayout>
 
 

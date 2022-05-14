@@ -28,7 +28,7 @@ import de.rki.covpass.app.R
 import de.rki.covpass.app.databinding.DgcEntryDetailBinding
 import de.rki.covpass.app.dependencies.covpassDeps
 import de.rki.covpass.app.detail.adapter.DgcEntryDetailAdapter
-import de.rki.covpass.app.widget.updateAllWidgets
+import de.rki.covpass.app.widget.updateAllCertificateWidgets
 import de.rki.covpass.commonapp.BaseFragment
 import de.rki.covpass.commonapp.dialog.DialogAction
 import de.rki.covpass.commonapp.dialog.DialogListener
@@ -110,7 +110,7 @@ public abstract class DgcEntryDetailFragment : BaseFragment(), DgcEntryDetailEve
     override fun onDeleteDone(isGroupedCertDeleted: Boolean) {
         requireContext().cacheDir.deleteRecursively()
         findNavigator().popUntil<DgcEntryDetailCallback>()?.onDeletionCompleted(isGroupedCertDeleted)
-        updateAllWidgets(requireContext())
+        updateAllCertificateWidgets(requireContext())
     }
 
     public abstract fun getToolbarTitleText(cert: CovCertificate): String

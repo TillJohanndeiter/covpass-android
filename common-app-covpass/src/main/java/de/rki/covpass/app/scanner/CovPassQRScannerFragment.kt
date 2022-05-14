@@ -15,7 +15,7 @@ import de.rki.covpass.app.detail.DetailFragmentNav
 import de.rki.covpass.app.errorhandling.ErrorHandler.Companion.TAG_ERROR_SAVING_BLOCKED
 import de.rki.covpass.app.misuseprevention.MisusePreventionFragmentNav
 import de.rki.covpass.app.ticketing.ConsentInitializationTicketingFragmentNav
-import de.rki.covpass.app.widget.updateAllWidgets
+import de.rki.covpass.app.widget.updateAllCertificateWidgets
 import de.rki.covpass.commonapp.dialog.DialogAction
 import de.rki.covpass.commonapp.dialog.DialogListener
 import de.rki.covpass.commonapp.scanner.QRScannerFragment
@@ -67,7 +67,7 @@ internal class CovPassQRScannerFragment : QRScannerFragment(), DialogListener, C
     override fun onScanSuccess(certificateId: GroupedCertificatesId) {
         findNavigator().popAll()
         findNavigator().push(DetailFragmentNav(certificateId, true))
-        updateAllWidgets(requireContext())
+        updateAllCertificateWidgets(requireContext())
     }
 
     override fun onTicketingQrcodeScan(ticketingDataInitialization: TicketingDataInitialization) {

@@ -17,12 +17,14 @@ import com.ibm.health.common.android.utils.getString
 import com.journeyapps.barcodescanner.BarcodeEncoder
 import de.rki.covpass.app.R
 import de.rki.covpass.app.dependencies.covpassDeps
+import de.rki.covpass.sdk.cert.models.GroupedCertificates
 import kotlinx.coroutines.MainScope
 import kotlinx.coroutines.launch
 
 
 /**
- * Widget to show current certificate on home screen.
+ * Provider for certificate widgets. The widget shows the main certificate [GroupedCertificates] of a holder.
+ * This widget show the certificate holder name and the qr code.
  */
 public class CertificateWidgetProvider : AppWidgetProvider() {
     override fun onUpdate(
@@ -52,6 +54,10 @@ public class CertificateWidgetProvider : AppWidgetProvider() {
 }
 
 
+/***
+ * Updates the widget with the given [appWidgetId] and current main certificate. If no certificate is found, a message
+ * is displayed.
+ */
 @OptIn(DependencyAccessor::class)
 public fun updateAppWidget(
     context: Context,
@@ -98,7 +104,10 @@ public fun updateAppWidget(
 
 }
 
-public fun updateAllWidgets(context: Context) {
+/**
+ * Send a broadcast to update all certificate widgets.
+ */
+public fun updateAllCertificateWidgets(context: Context) {
     val intent = Intent(context, CertificateWidgetProvider::class.java)
     intent.action = AppWidgetManager.ACTION_APPWIDGET_UPDATE
     val ids = AppWidgetManager.getInstance(context).getAppWidgetIds(
